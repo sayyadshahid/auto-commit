@@ -2,8 +2,8 @@ name: Auto Commit (Daily 4–20)
 
 on:
   schedule:
-    - cron: "0 0 * * *"    # Runs daily at 12:00 AM IST
-  workflow_dispatch:        # Allow manual run
+    - cron: "0 18 * * *"    # 11:30 PM IST daily
+  workflow_dispatch:
 
 jobs:
   auto-commit:
@@ -13,9 +13,14 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
+    - name: Set Git Identity   # <-- IMPORTANT FIX
+      run: |
+        git config --global user.email "shahidsayyad0212@gmail.com"
+        git config --global user.name "sayyadshahid"
+
     - name: Generate Random Commits
       run: |
-        NUM=$(( RANDOM % 17 + 4 ))    # Between 4 and 20 commits
+        NUM=$(( RANDOM % 17 + 4 ))    
         echo "Generating $NUM commits today!"
         for i in $(seq 1 $NUM); do
           echo "$(date)" >> commits-log.txt
@@ -25,6 +30,4 @@ jobs:
 
     - name: Push Changes
       run: |
-        git config --global user.email "your-email@example.com"
-        git config --global user.name "AutoCommitBot"
         git push

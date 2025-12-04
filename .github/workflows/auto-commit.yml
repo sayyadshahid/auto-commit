@@ -20,12 +20,12 @@ jobs:
 
     - name: Generate Random Commits
       run: |
-        NUM=$(( RANDOM % 17 + 4 ))    
-        echo "Generating $NUM commits today!"
+        NUM=20
+        echo "Generating exactly 20 commits!"
         for i in $(seq 1 $NUM); do
           echo "$(date)" >> commits-log.txt
           git add commits-log.txt
-          git commit -m "Auto commit: $(date)"
+          git commit -m "Auto commit #$i at $(date)"
         done
 
     - name: Push Changes

@@ -1,0 +1,30 @@
+name: Auto Commit (Daily 4–20)
+
+on:
+  schedule:
+    - cron: "0 0 * * *"    # Runs daily at 12:00 AM IST
+  workflow_dispatch:        # Allow manual run
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Generate Random Commits
+      run: |
+        NUM=$(( RANDOM % 17 + 4 ))    # Between 4 and 20 commits
+        echo "Generating $NUM commits today!"
+        for i in $(seq 1 $NUM); do
+          echo "$(date)" >> commits-log.txt
+          git add commits-log.txt
+          git commit -m "Auto commit: $(date)"
+        done
+
+    - name: Push Changes
+      run: |
+        git config --global user.email "your-email@example.com"
+        git config --global user.name "AutoCommitBot"
+        git push

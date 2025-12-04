@@ -2,7 +2,7 @@ name: Auto Commit (Daily 4–20)
 
 on:
   schedule:
-    - cron: "0 18 * * *"    # 11:30 PM IST daily
+    - cron: '*/5 * * * *' 
   workflow_dispatch:
 
 jobs:
